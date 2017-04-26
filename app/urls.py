@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from . import views
+from django.conf import settings
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.index),
+    url(r'^upload/$', views.upload_file),
+    url(r'^cal/$', views.cal),
 ]

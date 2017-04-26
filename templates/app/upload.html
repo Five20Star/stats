@@ -1,0 +1,30 @@
+<html>
+<head>
+<link rel="stylesheet" href="/static/css/tables.css" type="text/css" rel='stylesheet'/>
+<script type="text/javascript" class="library" src="/static/js/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+<script type='text/javascript'>
+
+    function change(){ 
+        var obj = document.getElementById("upload");
+        var txt = document.getElementById("txt");
+        txt.value=''
+        var length = obj.files.length;
+        for(var i=0;i<obj.files.length;i++){
+            var fname = obj.files[i].name;
+            txt.value+=fname+';'
+        }
+    }
+</script>
+    <form method="post" action="/app/upload/" id="myForm" enctype="multipart/form-data">
+        <div class="uploader blue" style="margin:auto auto">
+            <input type="text" class="filename" id='txt' readonly="readonly"/>
+            <input type="button" name="file" class="button" value="Browse..."/>
+            <input type="file" size="70" multiple="true" id="upload" name='myfile' onchange="change()"/>
+        </div>
+            <input type="submit" value="upload"/>
+            <input type="reset" value="reset"/>
+    </form>
+</body>
+</html>
