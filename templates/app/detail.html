@@ -50,6 +50,7 @@
 
 
 </tr>
+{% load selftag %}
 {% for k,v in rs_map %}
     {% for it in v %}
         <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
@@ -58,12 +59,12 @@
             <td>{{it.call_times}}</td>
             <td>{{it.answer}}</td>
             <td>{{it.unAnswer}}</td>
-            <td>{{it.call_duration}}</td>
-            <td>{{it.avg_call_duration}}</td>
+            <td>{{ it.call_duration | banary_to_str:" " }}</td>
+            <td>{{it.avg_call_duration | banary_to_str:" "}}</td>
             <td>{{it.valid_call_times}}</td>
             <td>{{it.valid_call_radio}}</td>
-            <td>{{it.valid_call_duration}}</td>
-            <td>{{it.avg_call_duration}}</td>
+            <td>{{it.valid_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.valid_call_avg_duration | banary_to_str:" "}}</td>
             <td>---</td>
             <td>---</td>
             <td>---</td>

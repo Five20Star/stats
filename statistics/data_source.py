@@ -32,6 +32,8 @@ class DataSource(object):
         data=get_data(fpath)
         rs = data and data['Sheet1'] or []
         for it in rs[1:]:
+            if not it[8]:
+                continue
             tr=TianRong(it)
             self.tianrong_rs.append(tr)
         return self.tianrong_rs
