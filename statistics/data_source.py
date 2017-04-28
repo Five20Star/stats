@@ -14,6 +14,14 @@ class DataSource(object):
         self.gude_rs = []
         self.load_data()
 
+    def get_expt_phone_map(self):
+        f=open('conf/phone.txt','r')
+        lines=f.readlines()
+        f.close()
+        #mulsub=lambda x,i,j,s:x[:i] + ''.join(map( lambda it:it.replace(it,s),x[i:j] )) + x[j:]
+        return { it.strip('\n'):1 for it in lines} 
+
+
     def get_xlx_data(self,fpath):
         return get_data(fpath)
 
@@ -30,9 +38,10 @@ class DataSource(object):
                 self.get_tianrong(settings.UPLOAD_PATH+'/'+it)
     def get_tianrong(self,fpath):
         data=get_data(fpath)
+        expt_mp=self.get_expt_phone_map()
         rs = data and data['Sheet1'] or []
         for it in rs[1:]:
-            if not it[8]:
+            if not it[8] or it[9] in expt_mp:
                 continue
             tr=TianRong(it)
             self.tianrong_rs.append(tr)

@@ -2,6 +2,17 @@
 <head>
 <link rel="stylesheet" href="/static/css/tables.css" type="text/css" rel='stylesheet'/>
 <script type="text/javascript" class="library" src="/static/js/jquery-1.7.2.min.js"></script>
+<style>
+select {
+    border: solid 1px #000;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    padding-right: 14px;
+    background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+}
+select::-ms-expand { display: none; }
+</style>
 </head>
 <body>
 <div>{{word}}</div>
@@ -51,10 +62,9 @@
 
 </tr>
 {% load selftag %}
-{% for k,v in rs_map %}
-    {% for it in v %}
+    {% for it in db_list %}
         <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-            <td>{{k}}</td>
+            <td>{{it.date}}</td>
             <td>{{it.name}}</td>
             <td>{{it.call_times}}</td>
             <td>{{it.answer}}</td>
@@ -92,31 +102,7 @@
             </tr>
 
     {% endfor %}
-{% endfor %}
 </table>
-<!--
-<script type='text/javascript'>
-
-    function change(){ 
-        var obj = document.getElementById("upload");
-        var txt = document.getElementById("txt");
-        txt.value=''
-        var length = obj.files.length;
-        for(var i=0;i<obj.files.length;i++){
-            var fname = obj.files[i].name;
-            txt.value+=fname+';'
-        }
-    }
 </script>
-    <form method="post" action="/app/upload/" id="myForm" enctype="multipart/form-data">
-        <div class="uploader blue" style="margin:auto auto">
-            <input type="text" class="filename" id='txt' readonly="readonly"/>
-            <input type="button" name="file" class="button" value="Browse..."/>
-            <input type="file" size="70" multiple="true" id="upload" name='myfile' onchange="change()"/>
-        </div>
-            <input type="submit" value="upload"/>
-            <input type="reset" value="reset"/>
-    </form>
--->
 </body>
 </html>
