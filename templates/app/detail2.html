@@ -1,0 +1,211 @@
+<html>
+<head>
+<link rel="stylesheet" href="/static/css/tables.css" type="text/css" rel='stylesheet'/>
+<script type="text/javascript" class="library" src="/static/js/jquery-1.7.2.min.js"></script>
+<style>
+select {
+    border: solid 1px #000;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    padding-right: 14px;
+    background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+}
+select::-ms-expand { display: none; }
+</style>
+</head>
+<body>
+<div>{{word}}</div>
+<div>
+  姓名:
+  <select id='name_select' multiple="multiple">
+    {% for name in name_list%}
+    <option value='{{name}}'>{{name}}</option>
+    {% endfor%}
+  </select>
+  开始时间:
+   <input type="date" value="2017-04-24" id='time_start'/>
+  结束时间:
+   <input type="date" value="2017-04-24" id='time_end'/>
+  <input type='button' id='ok' value='查询' onclick="change(1)"/>
+</div>
+</div>
+
+
+<table class="hovertable">
+    <tr>
+        <th rowspan='2' width='56px'>日期</th>
+        <th rowspan='2'>姓名</th>
+        <th colspan='12'>114</th>
+        <th colspan='10'>外呼营销（云企）</th>
+        <th colspan='9'>114/4000老客户回访（青牛）</th>
+    </tr>
+    <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+        <td>来电数量</td>
+        <td>人工已接听</td>
+        <td>人工未接听</td>
+        <td>总通话时长</td>
+        <td>平均通话时长</td>
+        <td>有效通话次数</td>
+        <td>有效通话率</td>
+        <td>有效通话时长</td>
+        <td>有效通话平均时长</td>
+        <td>CRM新增</td>
+        <td>CRM录入率</td>
+        <td>CRM备案通过</td>
+
+        <td>总通话时长</td>
+        <td>总通话次数</td>
+        <td>接通数量</td>
+        <td>平均通话时长</td>
+        <td>有效通话次数</td>
+        <td>有效通话总时长</td>
+        <td>有效通话率</td>
+        <td>有效通话平均时长</td>
+        <td>CRM更新</td>
+        <td>CRM备案通过</td>
+
+        <td>总通话时长</td>
+        <td>总通话次数</td>
+        <td>平均通话时长</td>
+        <td>有效通话次数</td>
+        <td>有效通话率</td>
+        <td>有效通话总时长</td>
+        <td>有效通话平均时长</td>
+        <td>CRM更新</td>
+        <td>CRM备案通过</td>
+
+
+</tr>
+<tbody id='tcontent'>
+{% load selftag %}
+    {% for it in db_list %}
+        <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+            <td>{{it.date}}</td>
+            <td>{{it.name}}</td>
+            <td>{{it.call_times}}</td>
+            <td>{{it.answer}}</td>
+            <td>{{it.unAnswer}}</td>
+            <td>{{ it.call_duration | banary_to_str:" " }}</td>
+            <td>{{it.avg_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.valid_call_times}}</td>
+            <td>{{it.valid_call_radio}}</td>
+            <td>{{it.valid_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.valid_call_avg_duration | banary_to_str:" "}}</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+
+            <td>{{it.gd_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.gd_call_times}}</td>
+            <td>{{it.gd_call_in_ctimes}}</td>
+            <td>{{it.gd_call_avg_duration | banary_to_str:" "}}</td>
+            <td>{{it.gd_valid_call_nums}}</td>
+            <td>{{it.gd_valid_call_duration}}</td>
+            <td>{{it.gd_valid_call_radio}}</td>
+            <td>{{it.gd_valid_call_avg_duration}}</td>
+            <td>---</td>
+            <td>---</td>
+
+            <td>{{it.qn_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_call_times}}</td>
+            <td>{{it.qn_avg_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_valid_call_times}}</td>
+            <td>{{it.qn_valid_call_radio}}</td>
+            <td>{{it.qn_valid_call_all_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_valid_avg_call_duration | banary_to_str:" "}}</td>
+            <td>---</td>
+            <td>---</td>
+            </tr>
+
+    {% endfor %}
+</tbody>
+</table>
+<script type='text/javascript'>
+
+    function PrefixInteger(num, n) {
+        return (Array(n).join(0) + num).slice(-n);
+    }
+
+    function gtime(value){
+        if (typeof(value)=='number' || value.indexOf('-')<0){
+            var seconds=parseInt(value);
+            var hour = parseInt(seconds/3600);
+            var mins = parseInt(seconds%3600/60);
+            var sec =  seconds%3600%60;
+            return PrefixInteger(hour,2)+':'+PrefixInteger(mins,2)+':'+PrefixInteger(sec,2);
+        }
+        else{
+            return value;
+        }
+    }
+    /*flag:0==select ,1==time,2==all*/
+    function change(flag){ 
+        names=$('#name_select').val();
+        st=$('#time_start').val();
+        ed=$('#time_end').val();
+        /*ajax请求*/
+        $.ajax({  
+                type:'post',      
+                url:'/app/db_name/',  
+                data:{
+                    "names":names,
+                    "flag":flag,
+                    "st":st,
+                    "ed":ed
+                },
+                dataType: "json",
+                traditional: true,
+                cache:true,   
+                success:function(data){  
+                    c=document.getElementById('tcontent');
+                    tr_str=''
+                    for(var i in data['rs_map']){
+                        it = data['rs_map'][i]
+                        it = data['rs_map'][i]
+                        tr_str+='<tr onmouseover="this.style.backgroundColor="#ffff66";" onmouseout="this.style.backgroundColor="#d4e3e5";">'
+                        tr_str+='<td>'+it.date+'</td>'
+                        tr_str+='<td>'+it.name+'</td>'
+                        tr_str+='<td>'+it.call_times+'</td>'
+                        tr_str+='<td>'+it.answer+'</td>'
+                        tr_str+='<td>'+it.unAnswer+'</td>'
+                        tr_str+='<td>'+gtime(it.call_duration)+'</td>'
+                        tr_str+='<td>'+gtime(it.avg_call_duration)+'</td>'
+                        tr_str+='<td>'+it.valid_call_times+'</td>'
+                        tr_str+='<td>'+it.valid_call_radio+'</td>'
+                        tr_str+='<td>'+gtime(it.valid_call_duration)+'</td>'
+                        tr_str+='<td>'+gtime(it.valid_call_avg_duration)+'</td>'
+                        tr_str+='<td>---</td>'
+                        tr_str+='<td>---</td>'
+                        tr_str+='<td>---</td>'
+    
+                        tr_str+='<td>'+gtime(it.gd_call_duration)+'</td>'
+                        tr_str+='<td>'+it.gd_call_times+'</td>'
+                        tr_str+='<td>'+it.gd_call_in_ctimes+'</td>'
+                        tr_str+='<td>'+gtime(it.gd_call_avg_duration)+'</td>'
+                        tr_str+='<td>'+it.gd_valid_call_nums+'</td>'
+                        tr_str+='<td>'+gtime(it.gd_valid_call_duration)+'</td>'
+                        tr_str+='<td>'+it.gd_valid_call_radio+'</td>'
+                        tr_str+='<td>'+gtime(it.gd_valid_call_avg_duration)+'</td>'
+                        tr_str+='<td>---</td>'
+                        tr_str+='<td>---</td>'
+
+                        tr_str+='<td>'+gtime(it.qn_call_duration)+'</td>'
+                        tr_str+='<td>'+it.qn_call_times+'</td>'
+                        tr_str+='<td>'+gtime(it.qn_avg_call_duration)+'</td>'
+                        tr_str+='<td>'+it.qn_valid_call_times+'</td>'
+                        tr_str+='<td>'+it.qn_valid_call_radio+'</td>'
+                        tr_str+='<td>'+gtime(it.qn_valid_call_all_duration)+'</td>'
+                        tr_str+='<td>'+gtime(it.qn_valid_avg_call_duration)+'</td>'
+                        tr_str+='<td>---</td>'
+                        tr_str+='<td>---</td>'
+                        tr_str+='</tr>'
+			
+                    }
+                    c.innerHTML=tr_str;
+                }  
+        });
+    }
+</script>
+</body>
+</html>

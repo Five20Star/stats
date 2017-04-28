@@ -69,10 +69,10 @@
             <td>---</td>
             <td>---</td>
 
-            <td>{{it.gd_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.gd_call_duration}}</td>
             <td>{{it.gd_call_times}}</td>
             <td>{{it.gd_call_in_ctimes}}</td>
-            <td>{{it.gd_call_avg_duration | banary_to_str:" "}}</td>
+            <td>{{it.gd_call_avg_duration}}</td>
             <td>{{it.gd_valid_call_nums}}</td>
             <td>{{it.gd_valid_call_duration}}</td>
             <td>{{it.gd_valid_call_radio}}</td>
@@ -80,13 +80,13 @@
             <td>---</td>
             <td>---</td>
 
-            <td>{{it.qn_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_call_duration}}</td>
             <td>{{it.qn_call_times}}</td>
-            <td>{{it.qn_avg_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_avg_call_duration}}</td>
             <td>{{it.qn_valid_call_times}}</td>
             <td>{{it.qn_valid_call_radio}}</td>
-            <td>{{it.qn_valid_call_all_duration | banary_to_str:" "}}</td>
-            <td>{{it.qn_valid_avg_call_duration | banary_to_str:" "}}</td>
+            <td>{{it.qn_valid_call_all_duration}}</td>
+            <td>{{it.qn_valid_avg_call_duration}}</td>
             <td>---</td>
             <td>---</td>
             </tr>

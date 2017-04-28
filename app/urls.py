@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^upload/$', views.upload_file),
     url(r'^cal/$', views.cal),
+    url(r'^db/$', views.read_db),
+    url(r'^db_name/$', views.read_db_by_name),
 ]
