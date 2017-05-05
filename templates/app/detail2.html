@@ -126,8 +126,10 @@ select::-ms-expand { display: none; }
     function PrefixInteger(num, n) {
         return (Array(n).join(0) + num).slice(-n);
     }
-
     function gtime(value){
+        if (typeof(value)!='number' && value.indexOf(':')>0){
+            return value
+        }
         if (typeof(value)=='number' || value.indexOf('-')<0){
             var seconds=parseInt(value);
             var hour = parseInt(seconds/3600);
